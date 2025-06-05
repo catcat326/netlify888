@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoVault Pro - 合規數位資產託管平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .header-bar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .regulatory-badges {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.sec {
+            background: linear-gradient(135deg, #3182ce, #2c5aa0);
+        }
+
+        .badge.insurance {
+            background: linear-gradient(135deg, #ed8936, #dd6b20);
+        }
+
+        .security-icons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: #4a5568;
+            font-size: 12px;
+        }
+
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .calculator-section {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .info-section {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3182ce, #2c5aa0);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .company-info {
+            text-align: left;
+        }
+
+        .company-name {
+            font-size: 24px;
+            font-weight: 800;
+            color: #2d3748;
+            letter-spacing: -0.5px;
+        }
+
+        .company-subtitle {
+            color: #718096;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .trust-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .trust-item {
+            text-align: center;
+            font-size: 11px;
+            color: #4a5568;
+        }
+
+        .trust-number {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 6px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: white;
+            font-weight: 500;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        .currency-symbol {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #718096;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .input.with-symbol {
+            padding-left: 40px;
+        }
+
+        .select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .select:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        .crypto-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .crypto-option {
+            padding: 12px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .crypto-option:hover {
+            border-color: #3182ce;
+        }
+
+        .crypto-option.active {
+            border-color: #3182ce;
+            background: rgba(49, 130, 206, 0.05);
+        }
+
+        .crypto-name {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 13px;
+        }
+
+        .crypto-apy {
+            color: #38a169;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #3182ce, #2c5aa0);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(49, 130, 206, 0.3);
+        }
+
+        .results {
+            background: linear-gradient(135deg, #f8fafc, #edf2f7);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 16px;
+            color: #2d3748;
+            background: rgba(56, 161, 105, 0.1);
+            margin: 10px -20px -20px -20px;
+            padding: 16px 20px;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .result-label {
+            color: #718096;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-value {
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .total-value {
+            color: #38a169 !important;
+            font-size: 18px !important;
+        }
+
+        .info-panel {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .info-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .security-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(49, 130, 206, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(49, 130, 206, 0.1);
+        }
+
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            background: #3182ce;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+        }
+
+        .feature-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .regulatory-info {
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            border: 1px solid #bee3f8;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .regulatory-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2c5aa0;
+            margin-bottom: 8px;
+        }
+
+        .regulatory-text {
+            font-size: 12px;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results.show {
+            animation: fadeIn 0.5s ease;
+        }
+
+        .disclaimer {
+            background: #fef5e7;
+            border: 1px solid #f6d55c;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 11px;
+            color: #744210;
+            line-height: 1.4;
+        }
+
+        .disclaimer strong {
+            font-weight: 700;
+        }
+
+        @media (max-width: 1200px) {
+            .main-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .calculator-section, .info-section {
+                max-width: 600px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <div class="header-content">
+            <div class="regulatory-badges">
+                <div class="badge">🛡️ 金管會核准</div>
+                <div class="badge sec">🏛️ 央行監管</div>
+                <div class="badge insurance">🔒 5億美元保險</div>
+            </div>
+            <div class="security-icons">
+                <span>🔐 256位元加密</span>
+                <span>📊 SOC2認證</span>
+                <span>✅ 反洗錢合規</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="calculator-section">
+            <div class="container">
+                <div class="header">
+                    <div class="logo-section">
+                        <div class="logo">₿</div>
+                        <div class="company-info">
+                            <div class="company-name">數位金庫專業版</div>
+                            <div class="company-subtitle">合規數位資產託管機構</div>
+                        </div>
+                    </div>
+                    <div class="trust-indicators">
+                        <div class="trust-item">
+                            <span class="trust-number">25億美元+</span>
+                            資產管理規模
+                        </div>
+                        <div class="trust-item">
+                            <span class="trust-number">15萬+</span>
+                            機構客戶
+                        </div>
+                        <div class="trust-item">
+                            <span class="trust-number">99.9%</span>
+                            系統穩定率
+                        </div>
+                    </div>
+                </div>
+
+                <form id="calculatorForm">
+                    <div class="form-group">
+                        <label class="label" for="userName">客戶姓名</label>
+                        <input type="text" id="userName" class="input" placeholder="請輸入您的完整姓名" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label">數位資產選擇</label>
+                        <div class="crypto-options">
+                            <div class="crypto-option active" data-crypto="BTC" data-apy="5.2">
+                                <div class="crypto-name">BTC</div>
+                                <div class="crypto-apy">5.2% APY</div>
+                            </div>
+                            <div class="crypto-option" data-crypto="ETH" data-apy="4.8">
+                                <div class="crypto-name">ETH</div>
+                                <div class="crypto-apy">4.8% APY</div>
+                            </div>
+                            <div class="crypto-option" data-crypto="USDT" data-apy="50">
+                                <div class="crypto-name">USDT</div>
+                                <div class="crypto-apy">50% APY</div>
+                            </div>
+                            <div class="crypto-option" data-crypto="USDC" data-apy="6.0">
+                                <div class="crypto-name">USDC</div>
+                                <div class="crypto-apy">6.0% APY</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label" for="amount">投資本金 (美元)</label>
+                        <div class="input-group">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" id="amount" class="input with-symbol" placeholder="最低投資額 $10,000" min="10000" step="1000" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label" for="period">投資期限</label>
+                        <select id="period" class="select" required>
+                            <option value="">請選擇投資期限</option>
+                            <option value="30">30天 (1個月)</option>
+                            <option value="90">90天 (3個月)</option>
+                            <option value="180">180天 (6個月)</option>
+                            <option value="365">365天 (1年)</option>
+                            <option value="730">730天 (2年)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="calculate-btn" id="calculateBtn">
+                        計算投資收益
+                    </button>
+                </form>
+
+                <div id="results" class="results hidden">
+                    <div class="result-item">
+                        <span class="result-label">客戶姓名</span>
+                        <span class="result-value" id="investorName">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">投資本金</span>
+                        <span class="result-value" id="principal">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">投資期限</span>
+                        <span class="result-value" id="duration">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">年化收益率</span>
+                        <span class="result-value" id="apyDisplay">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">預期利息</span>
+                        <span class="result-value" id="interest">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">到期總金額</span>
+                        <span class="result-value total-value" id="total">$0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-panel">
+                <h2 class="info-title">🔐 企業級安全保障</h2>
+                <div class="security-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">🏦</div>
+                        <div class="feature-text">銀行級託管</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">❄️</div>
+                        <div class="feature-text">95%冷錢包存儲</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔑</div>
+                        <div class="feature-text">多重簽名技術</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🛡️</div>
+                        <div class="feature-text">硬體安全模組</div>
+                    </div>
+                </div>
+                
+                <div class="regulatory-info">
+                    <div class="regulatory-title">監管合規</div>
+                    <div class="regulatory-text">
+                        數位金庫專業版在金管會、央行及相關金融監管機構的全面監管下運營。所有客戶資金均採用隔離保管，並受到高達5億美元的綜合保險保障。
+                    </div>
+                </div>
+
+                <div class="disclaimer">
+                    <strong>風險揭露：</strong> 數位資產投資具有固有風險，包括市場波動、法規變化及技術風險。過往績效不代表未來獲利。本計算器提供的估值基於當前市場狀況，不構成收益保證。請在投資前諮詢合格的財務顧問。
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <h2 class="info-title">📊 選擇數位金庫專業版的理由</h2>
+                <div style="font-size: 13px; color: #4a5568; line-height: 1.6;">
+                    <p style="margin-bottom: 12px;"><strong>🏛️ 機構等級：</strong> 受到世界500強企業及家族辦公室信賴</p>
+                    <p style="margin-bottom: 12px;"><strong>⚡ 先進技術：</strong> 軍用級加密技術配合即時監控系統</p>
+                    <p style="margin-bottom: 12px;"><strong>🌍 全球佈局：</strong> 在50+個司法管轄區獲得許可，提供24/7服務</p>
+                    <p style="margin-bottom: 12px;"><strong>💎 尊榮服務：</strong> 為高淨值客戶提供專屬關係經理服務</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedCrypto = 'BTC';
+        let selectedAPY = 5.2;
+
+        // 加密貨幣選擇
+        document.querySelectorAll('.crypto-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.crypto-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                selectedCrypto = this.dataset.crypto;
+                selectedAPY = parseFloat(this.dataset.apy);
+            });
+        });
+
+        // 表單提交處理
+        document.getElementById('calculatorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const userName = document.getElementById('userName').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+            const period = parseInt(document.getElementById('period').value);
+            
+            if (!userName || !amount || !period) {
+                alert('請填寫完整資訊');
+                return;
+            }
+
+            if (amount < 10000) {
+                alert('投資金額最低為 $10,000 USD');
+                return;
+            }
+
+            calculateReturns(userName, amount, period, selectedAPY);
+        });
+
+        // 實時計算（當輸入改變時）
+        document.getElementById('userName').addEventListener('input', calculateOnChange);
+        document.getElementById('amount').addEventListener('input', calculateOnChange);
+        document.getElementById('period').addEventListener('change', calculateOnChange);
+
+        function calculateOnChange() {
+            const userName = document.getElementById('userName').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+            const period = parseInt(document.getElementById('period').value);
+            
+            if (userName && amount && period && amount >= 10000) {
+                calculateReturns(userName, amount, period, selectedAPY);
+            }
+        }
+
+        function calculateReturns(name, principal, days, apy) {
+            // 計算利息 (複利計算)
+            const dailyRate = apy / 100 / 365;
+            const compoundAmount = principal * Math.pow(1 + dailyRate, days);
+            const interest = compoundAmount - principal;
+            const total = principal + interest;
+
+            // 更新顯示
+            document.getElementById('investorName').textContent = name;
+            document.getElementById('principal').textContent = `$${principal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('duration').textContent = `${days}天 (${Math.round(days/30)}個月)`;
+            document.getElementById('apyDisplay').textContent = `${apy}% 年化收益率`;
+            document.getElementById('interest').textContent = `$${interest.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('total').textContent = `$${total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+            // 顯示結果區域
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.classList.remove('hidden');
+            resultsDiv.classList.add('show');
+        }
+
+        // 添加輸入動畫效果
+        document.querySelectorAll('.input, .select').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.style.transform = 'scale(1.01)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // 按鈕點擊動畫
+        document.getElementById('calculateBtn').addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
